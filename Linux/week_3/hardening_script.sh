@@ -4,19 +4,6 @@
 CONFIG='/etc/apache2/apache.conf'
 
 
-# Updating Apache to latest version
-
-echo -n '> Updating Apache to latest version... '
-
-yum -y update httpd >/dev/null 2>&1 &
-
-SUCCESS=$?
-
-if [ $SUCCESS -eq 0 ]; then
-    echo "[OK]"
-else
-    echo "[ERROR]"
-fi
 
 
 # Backing Up Original Configuration
@@ -80,19 +67,6 @@ else
 fi
 
 
-# Install mod_security and mod_evasive 
-
-echo -n '> Install mod_security and mod_evasive... '
-
-yum -y install mod_security mod_evasive >/dev/null 2>&1 &
-
-SUCCESS=$?
-
-if [ $SUCCESS -eq 0 ]; then
-    echo "[OK]"
-else
-    echo "[ERROR]"
-fi
 
 
 # Limit Request Size To Prevent DOS
@@ -143,24 +117,11 @@ else
 fi
 
 
-# Protect Apache Binary Files
 
-echo -n '> Protect Apache Binary Files... '
-
-chown -R root:root /etc/httpd/conf /etc/httpd/bin >/dev/null 2>&1 &
-chmod -R 750 /etc/httpd/conf /etc/httpd/bin >/dev/null 2>&1 &
-
-SUCCESS=$?
-
-if [ $SUCCESS -eq 0 ]; then
-    echo "[OK]"
-else
-    echo "[ERROR]"
-fi
 
 
 # Restart Apache Server
 
 echo '> Restart Apache Server:'
 
-service httpd restart &
+sudo systemctl restart apache2 
